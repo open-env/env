@@ -1,0 +1,4 @@
+# Set Vi mode for any GNU Readline-based application
+set editing-mode vi
+set keymap vi-command
+

@@ -1,0 +1,35 @@
+# Centos container snippets
+FROM centos:latest
+
+ENV TZ=Europe/Amsterdam
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# RUN apt-get update && apt-get install -y \
+# RUN apk --no-cache add 
+
+RUN yum -y update
+RUN yum -y groupinstall 'Development Tools'
+# replace by gcc, gcc-c++, glibc-devel, make
+
+RUN yum -y update && yum -y install \
+# centos
+libevent-devel \
+ncurses-devel \
+automake \
+# Unavailable on centos:
+# build-base \
+# keychain \
+# build-essential \
+# g++ \
+# clang-format \
+# (check that the last package name doesn't end with \ )
+
+
+RUN cd /root/
+RUN echo "\n\n\n=========== before script tmux: "
+RUN tmux -V
+COPY get_tmux.sh /root/
+RUN ls -lart
+RUN cd /root/ && ls -lart && mkdir $HOME/local_tmux && ./get_tmux.sh
+RUN echo "\n\n\n=========== tmux after script: "
+RUN tmux -V
+# Get plugins and run installation scripts
